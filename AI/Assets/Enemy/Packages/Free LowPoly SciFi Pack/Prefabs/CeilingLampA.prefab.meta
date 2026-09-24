@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: cf17ab9d8beb9d54db8078d5a2751f27
+timeCreated: 1518080279
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110070
+  packageName: Free LowPoly SciFi Pack
+  packageVersion: 1.0
+  assetPath: Assets/Free LowPoly SciFi Pack/Prefabs/CeilingLampA.prefab
+  uploadId: 228927

@@ -13,7 +13,7 @@ public class RunState : MovementBaseState {
         if (movement.vInput < 0) movement.currentMoveSpeed = movement.runBackSpeed;
         else movement.currentMoveSpeed = movement.runSpeed;
 
-        FaceMoveDirection(movement);
+        //FaceMoveDirection(movement);
     }
 
     void FaceMoveDirection(MovementStageManager movement) {

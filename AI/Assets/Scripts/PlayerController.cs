@@ -1,5 +1,5 @@
 using UnityEngine;
-
+/*
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
@@ -71,3 +71,4 @@ public class PlayerController : MonoBehaviour
     }
 
 }
+*/

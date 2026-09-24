@@ -1,3 +1,4 @@
+﻿using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,9 +21,12 @@ public class WeaponManager : MonoBehaviour
 
     WeaponAmmo ammo;
 
+    private Animator anim;
+
     private void Awake() {
         aim = GetComponent<AimStageManager>();
         ammo = GetComponent<WeaponAmmo>();
+        anim = GetComponent<Animator>();
         m_mouse0 = InputSystem.actions.FindAction("Shoot");
     }
 
@@ -32,12 +36,10 @@ public class WeaponManager : MonoBehaviour
         fireRateTimer = fireRate;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(ShouldFire()) Fire();
-        Debug.Log(ShouldFire());
-        //Debug.Log(ammo.currentAmmo);
+    private float lastBarrelY;
+
+    void Update() {
+        if (ShouldFire()) Fire();
     }
 
     bool ShouldFire() {
@@ -51,14 +53,17 @@ public class WeaponManager : MonoBehaviour
     }
 
     void Fire() {
+        anim.SetTrigger("Shooting");
         fireRateTimer = 0;
-        barrelPos.LookAt(aim.aimPos);
-        ammo.currentAmmo --;
+        //barrelPos.LookAt(aim.aimPos);
+        ammo.currentAmmo--;
 
         for (int i = 0; i < bulletPerShoot; i++) {
-            GameObject currentBullet = Instantiate(bullet, barrelPos.position, barrelPos.rotation);
+            Vector3 direction = (aim.aimPos.position - barrelPos.position).normalized;
+            Quaternion rotation = direction != Vector3.zero ? Quaternion.LookRotation(direction) : Quaternion.identity;
+            GameObject currentBullet = Instantiate(bullet, barrelPos.position, rotation);
             Rigidbody theRB = currentBullet.GetComponent<Rigidbody>();
-            theRB.AddForce(barrelPos.forward * bulletVelocity,ForceMode.Impulse);
+            theRB.AddForce(direction * bulletVelocity, ForceMode.Impulse);
         }
     }
 }
