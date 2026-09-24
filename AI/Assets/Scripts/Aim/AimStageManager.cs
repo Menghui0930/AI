@@ -33,6 +33,8 @@ public class AimStageManager : MonoBehaviour {
     [HideInInspector] public HipFireState Hip = new HipFireState();
     [HideInInspector] public AimState Aim = new AimState();
 
+    [SerializeField] private bool isPlayer = true;
+
 
     private void Awake() {
         lookAction = InputSystem.actions.FindAction("Look");
@@ -69,16 +71,19 @@ public class AimStageManager : MonoBehaviour {
             yRotation = Mathf.Clamp(yRotation, -60, 60f);
         }
 
-        vCam.Lens.FieldOfView = Mathf.Lerp(vCam.Lens.FieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);
-        //Debug.Log(vCam.Lens.FieldOfView);
+        if (isPlayer) {
+            vCam.Lens.FieldOfView = Mathf.Lerp(vCam.Lens.FieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);
 
-        Vector2 screenCentre = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray ray = Camera.main.ScreenPointToRay(screenCentre);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask)) {
-            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
+            //Debug.Log(vCam.Lens.FieldOfView);
+
+            Vector2 screenCentre = new Vector2(Screen.width / 2, Screen.height / 2);
+            Ray ray = Camera.main.ScreenPointToRay(screenCentre);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask)) {
+                aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
+            }
+
+            currentState.UpdateState(this);
         }
-        
-        currentState.UpdateState(this);
     }
 
     private void LateUpdate() {

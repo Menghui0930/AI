@@ -97,7 +97,7 @@ public class MovementStageManager : MonoBehaviour {
 
         dir = transform.forward.normalized * vInput + transform.right.normalized * hzInput;
 
-        controller.Move(dir.normalized * currentMoveSpeed * Time.deltaTime);
+        //controller.Move(dir.normalized * currentMoveSpeed * Time.deltaTime);
 
     }
 

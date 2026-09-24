@@ -39,21 +39,28 @@ public class WeaponManager : MonoBehaviour
     private float lastBarrelY;
 
     void Update() {
-        if (ShouldFire()) Fire();
-    }
-
-    bool ShouldFire() {
+        // 每一帧都累加计时器
         fireRateTimer += Time.deltaTime;
 
-        if(fireRateTimer < fireRate) return false;
-        if(ammo.currentAmmo == 0 ) return false;
-        if(semiAuto && m_mouse0.WasPressedThisFrame()) return true;
-        if(!semiAuto && m_mouse0.IsPressed()) return true;
+        // 【核心修改 1】：根据玩家是否“正在持续尝试开火”来控制 Animator 的 Shooting 变量
+        bool isTryingToFire = IsInputFiring() && ammo.currentAmmo > 0;
+        anim.SetBool("Shooting", isTryingToFire);
+
+        // 真正的物理开火逻辑仍然受到 fireRate 的限制
+        if (isTryingToFire && fireRateTimer >= fireRate) {
+            Fire();
+        }
+    }
+
+    // 独立检测玩家当前输入是否想开火
+    bool IsInputFiring() {
+        if (semiAuto && m_mouse0.WasPressedThisFrame()) return true;
+        if (!semiAuto && m_mouse0.IsPressed()) return true;
         return false;
     }
 
     void Fire() {
-        anim.SetTrigger("Shooting");
+        anim.SetBool("Aiming",false);
         fireRateTimer = 0;
         //barrelPos.LookAt(aim.aimPos);
         ammo.currentAmmo--;
