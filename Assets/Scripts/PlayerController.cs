@@ -10,13 +10,23 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     private float vertical;
 
-    // 相机
+    // Camera
     public Transform cameraTransform;
+
+    // Health
+    public int maxHealth = 3;
+    public int currentHealth;
+
+    // Invincibility
+    public float invincibleTime = 2f;
+    private bool isInvincible = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -27,34 +37,34 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 相机前方
+        // Camera forward
         Vector3 forward = cameraTransform.forward;
 
-        // 相机右方
+        // Camera right
         Vector3 right = cameraTransform.right;
 
-        // 去掉上下角度
+        // Remove vertical angle
         forward.y = 0;
         right.y = 0;
 
         forward.Normalize();
         right.Normalize();
 
-        // 根据相机计算移动方向
+        // Calculate movement direction
         Vector3 moveDirection =
             forward * vertical +
             right * horizontal;
 
-        // 防止斜向移动更快
+        // Prevent diagonal movement from being faster
         moveDirection.Normalize();
 
-        // 移动
+        // Move player
         rb.MovePosition(
             rb.position +
             moveDirection * moveSpeed * Time.fixedDeltaTime
         );
 
-        // 玩家朝向移动方向
+        // Player faces movement direction
         if (moveDirection != Vector3.zero)
         {
             Quaternion targetRotation =
@@ -70,4 +80,43 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Take damage
+    public void TakeDamage()
+    {
+        if (isInvincible)
+            return;
+
+        currentHealth--;
+
+        Debug.Log("Player Health: " + currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
+        // Start invincibility
+        StartCoroutine(Invincibility());
+    }
+
+    // Invincibility timer
+    System.Collections.IEnumerator Invincibility()
+    {
+        isInvincible = true;
+
+        Debug.Log("Player is Invincible");
+
+        yield return new WaitForSeconds(invincibleTime);
+
+        isInvincible = false;
+
+        Debug.Log("Player is no longer Invincible");
+    }
+
+    void Die()
+    {
+        Debug.Log("Player Died");
+
+    }
 }
