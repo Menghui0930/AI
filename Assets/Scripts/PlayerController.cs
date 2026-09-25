@@ -1,5 +1,5 @@
 using UnityEngine;
-
+/*
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
@@ -10,23 +10,13 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     private float vertical;
 
-    // Camera
+    // 相机
     public Transform cameraTransform;
-
-    // Health
-    public int maxHealth = 3;
-    public int currentHealth;
-
-    // Invincibility
-    public float invincibleTime = 2f;
-    private bool isInvincible = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        currentHealth = maxHealth;
     }
 
     void Update()
@@ -37,34 +27,34 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Camera forward
+        // 相机前方
         Vector3 forward = cameraTransform.forward;
 
-        // Camera right
+        // 相机右方
         Vector3 right = cameraTransform.right;
 
-        // Remove vertical angle
+        // 去掉上下角度
         forward.y = 0;
         right.y = 0;
 
         forward.Normalize();
         right.Normalize();
 
-        // Calculate movement direction
+        // 根据相机计算移动方向
         Vector3 moveDirection =
             forward * vertical +
             right * horizontal;
 
-        // Prevent diagonal movement from being faster
+        // 防止斜向移动更快
         moveDirection.Normalize();
 
-        // Move player
+        // 移动
         rb.MovePosition(
             rb.position +
             moveDirection * moveSpeed * Time.fixedDeltaTime
         );
 
-        // Player faces movement direction
+        // 玩家朝向移动方向
         if (moveDirection != Vector3.zero)
         {
             Quaternion targetRotation =
@@ -80,43 +70,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Take damage
-    public void TakeDamage()
-    {
-        if (isInvincible)
-            return;
-
-        currentHealth--;
-
-        Debug.Log("Player Health: " + currentHealth);
-
-        if (currentHealth <= 0)
-        {
-            Die();
-            return;
-        }
-
-        // Start invincibility
-        StartCoroutine(Invincibility());
-    }
-
-    // Invincibility timer
-    System.Collections.IEnumerator Invincibility()
-    {
-        isInvincible = true;
-
-        Debug.Log("Player is Invincible");
-
-        yield return new WaitForSeconds(invincibleTime);
-
-        isInvincible = false;
-
-        Debug.Log("Player is no longer Invincible");
-    }
-
-    void Die()
-    {
-        Debug.Log("Player Died");
-
-    }
 }
+*/

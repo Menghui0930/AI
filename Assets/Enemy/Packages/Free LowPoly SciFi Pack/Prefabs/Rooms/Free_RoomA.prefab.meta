@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 49385278c6bec1643920f5f7048ff020
+timeCreated: 1516889557
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110070
+  packageName: Free LowPoly SciFi Pack
+  packageVersion: 1.0
+  assetPath: Assets/Free LowPoly SciFi Pack/Prefabs/Rooms/Free_RoomA.prefab
+  uploadId: 228927

@@ -20,6 +20,8 @@ public class SniperBehaviour : MonoBehaviour
     // Attack
     public float attackCooldown = 3f;
     private float attackTimer;
+    public GameObject sniperBulletPrefab;
+    publivc Transform firePoint;
 
     private NavMeshAgent agent;
 
@@ -123,12 +125,17 @@ public class SniperBehaviour : MonoBehaviour
     {
         Debug.Log("Sniper attacks player!");
 
-        PlayerController playerController =
-            player.GetComponent<PlayerController>();
-
-        if (playerController != null)
+        if (bulletPrefab != null && firePoint != null)
         {
-            playerController.TakeDamage();
+            Vector3 direction =
+                player.position - firePoint.position;
+
+            GameObject bullet =
+                Instantiate(
+                    bulletPrefab,
+                    firePoint.position,
+                    Quaternion.LookRotation(direction)
+                );
         }
     }
 
