@@ -3,23 +3,14 @@ using UnityEngine.AI;
 
 public class SniperBehaviour : MonoBehaviour
 {
-    public Transform player;
-
     // Health
     public int maxHealth = 2;
     private int currentHealth;
 
-    // Detection and attack
-    public float detectRange = 10f;
-    public float attackRange = 20f;
-
-    // Flee
-    public float fleeDistance = 10f;
-    public float fleeSpeed = 6f;
-
-    // Attack
-    public float attackCooldown = 3f;
-    private float attackTimer;
+    // Bullet
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+    public float bulletSpeed = 15f;
 
     private NavMeshAgent agent;
 
@@ -28,124 +19,109 @@ public class SniperBehaviour : MonoBehaviour
         currentHealth = maxHealth;
 
         agent = GetComponent<NavMeshAgent>();
-
-        agent.speed = fleeSpeed;
     }
 
-    void Update()
+    public void MoveToPosition(Vector3 position)
+    {
+        if (agent == null)
+            return;
+
+        agent.isStopped = false;
+        agent.SetDestination(position);
+    }
+
+    public void StopMoving()
+    {
+        if (agent == null)
+            return;
+
+        agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    public void FacePlayer(Transform player)
     {
         if (player == null)
             return;
 
-        float distance =
-            Vector3.Distance(transform.position, player.position);
-
-        attackTimer -= Time.deltaTime;
-
-        // Player is close
-        if (distance <= detectRange)
-        {
-            FleeFromPlayer();
-        }
-        // Player is within attack range
-        else if (distance <= attackRange)
-        {
-            StopAndAttack();
-        }
-        else
-        {
-            // Player is too far away
-            agent.ResetPath();
-        }
-
-        // Face player when attacking
-        if (distance > detectRange && distance <= attackRange)
-            {
-                Vector3 direction =
-                    player.position - transform.position;
-
-                direction.y = 0;
-
-                if (direction != Vector3.zero)
-                {
-                    transform.rotation =
-                        Quaternion.LookRotation(direction);
-                }
-            }
-    }
-
-    void FleeFromPlayer()
-    {
         Vector3 direction =
-            transform.position - player.position;
+            player.position - transform.position;
 
         direction.y = 0;
 
-        direction.Normalize();
-
-        Vector3 fleePosition =
-            transform.position +
-            direction * fleeDistance;
-
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(
-            fleePosition,
-            out hit,
-            fleeDistance,
-            NavMesh.AllAreas))
+        if (direction != Vector3.zero)
         {
-            agent.SetDestination(hit.position);
-        }
-      if (agent.velocity.sqrMagnitude > 0.1f)
-        {
-            Vector3 moveDirection = agent.velocity;
-            moveDirection.y = 0;
-
             transform.rotation =
-                Quaternion.LookRotation(moveDirection);
+                Quaternion.LookRotation(direction);
         }
     }
 
-    void StopAndAttack()
+    public void Shoot(Transform player)
     {
-        agent.ResetPath();
+        if (player == null)
+            return;
 
-        if (attackTimer <= 0)
+        if (bulletPrefab == null)
         {
-            AttackPlayer();
+            Debug.LogWarning(
+                gameObject.name +
+                " has no Bullet Prefab!"
+            );
 
-            attackTimer = attackCooldown;
+            return;
         }
-    }
 
-    void AttackPlayer()
-    {
-        Debug.Log("Sniper attacks player!");
-
-        PlayerController playerController =
-            player.GetComponent<PlayerController>();
-
-        if (playerController != null)
+        if (firePoint == null)
         {
-            playerController.TakeDamage();
+            Debug.LogWarning(
+                gameObject.name +
+                " has no Fire Point!"
+            );
+
+            return;
         }
+
+        Vector3 direction =
+            (player.position - firePoint.position).normalized;
+
+        Quaternion rotation =
+            Quaternion.LookRotation(direction);
+
+        GameObject bullet =
+            Instantiate(
+                bulletPrefab,
+                firePoint.position,
+                rotation
+            );
+
+        Rigidbody rb =
+            bullet.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.linearVelocity =
+                direction * bulletSpeed;
+        }
+
+        Debug.Log(
+            gameObject.name +
+            " shoots!"
+        );
     }
 
     public void TakeDamage()
     {
         currentHealth--;
 
-        Debug.Log("Sniper Health: " + currentHealth);
+        Debug.Log(
+            gameObject.name +
+            " Health: " +
+            currentHealth
+        );
 
         if (currentHealth <= 0)
         {
-            Die();
+            Destroy(gameObject);
         }
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
     }
 }
