@@ -10,11 +10,11 @@ public class CallDroneBehaviour : MonoBehaviour {
     public float hoverHeight = 1.5f;
     public float rotateSpeed = 10f;
 
-    [Header("Wander (待机时在玩家附近闲晃)")]
+    [Header("Wander")]
     public float wanderRadius = 3f;
     public float wanderInterval = 2f;
     public float wanderReachDistance = 0.3f;
-    public float wanderPauseDuration = 1f;   // 到达闲晃点后停留的时间
+    public float wanderPauseDuration = 1f;   
 
     [Header("Attack")]
     public Transform firePoint;
@@ -22,7 +22,7 @@ public class CallDroneBehaviour : MonoBehaviour {
     public float attackRange = 15f;
     public float attackCooldown = 5f;
     public float aimDuration = 0.3f;
-    public float postAttackPauseDuration = 1f; // 攻击完后停留的时间
+    public float postAttackPauseDuration = 1f; 
 
     private float attackTimer;
     private bool isReturning = false;
@@ -33,12 +33,16 @@ public class CallDroneBehaviour : MonoBehaviour {
     private bool isPausing = false;
     private float pauseTimer;
 
+    private Animator animator;
+
     void Start() {
         if (player == null) {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject != null)
                 player = playerObject.transform;
         }
+
+        animator = GetComponent<Animator>();
 
         PickNewWanderTarget();
     }
@@ -50,10 +54,9 @@ public class CallDroneBehaviour : MonoBehaviour {
 
         float playerDistance = Vector3.Distance(transform.position, player.position);
 
-        // 离玩家太远 —— 这条规则永远最优先，会打断暂停/闲晃状态
         if (playerDistance > followDistance) {
             isReturning = true;
-            isPausing = false; // 强制取消暂停，立刻开始返回
+            isPausing = false; 
         } else if (isReturning && playerDistance <= followDistance * 0.5f) {
             isReturning = false;
             PickNewWanderTarget();
@@ -68,7 +71,6 @@ public class CallDroneBehaviour : MonoBehaviour {
             return;
         }
 
-        // 正在暂停/休息中，不做任何移动，只倒数计时
         if (isPausing) {
             pauseTimer -= Time.deltaTime;
             if (pauseTimer <= 0f) {
@@ -100,7 +102,6 @@ public class CallDroneBehaviour : MonoBehaviour {
         float distanceToTarget = Vector3.Distance(transform.position, wanderTarget);
 
         if (distanceToTarget <= wanderReachDistance || wanderTimer <= 0f) {
-            // 到达目标点（或超时），先进入暂停状态，而不是立刻选下一个点
             isPausing = true;
             pauseTimer = wanderPauseDuration;
             return;
@@ -150,6 +151,7 @@ public class CallDroneBehaviour : MonoBehaviour {
 
     IEnumerator AttackSequence(GameObject enemy) {
         isAttacking = true;
+        animator.SetBool("Attack",true);
         float elapsed = 0f;
 
         while (elapsed < aimDuration) {
@@ -169,9 +171,9 @@ public class CallDroneBehaviour : MonoBehaviour {
 
         attackTimer = attackCooldown;
 
-        // 攻击完后休息一下，再回到 Wander 状态
         isAttacking = false;
         isPausing = true;
+        animator.SetBool("Attack",false);
         pauseTimer = postAttackPauseDuration;
     }
 

@@ -92,12 +92,9 @@ public class EnemyChaser : MonoBehaviour {
     }
 
     void Explode() {
-        // 引爆前先清掉前摇特效
         ClearWindupVfx();
 
         if (explosionVfxPrefab != null) {
-            // 爆炸特效不挂在 Enemy 底下，
-            // 这样 Enemy 消失后爆炸特效还能自己播完（不会被 Destroy(gameObject) 连带清掉）
             Instantiate(explosionVfxPrefab, transform.position, Quaternion.identity);
         }
 
@@ -112,8 +109,6 @@ public class EnemyChaser : MonoBehaviour {
         Die();
     }
 
-
-    // 被外部打死时：中断攻击流程，不引爆，直接清掉所有特效
     void InterruptAndDie() {
         if (attackCoroutine != null) {
             StopCoroutine(attackCoroutine);
@@ -133,7 +128,7 @@ public class EnemyChaser : MonoBehaviour {
 
     void Die() {
         state = State.Dead;
-        ClearWindupVfx(); // 保险起见，死亡时再确认一次特效已清除
+        ClearWindupVfx(); 
         Destroy(gameObject);
     }
 
