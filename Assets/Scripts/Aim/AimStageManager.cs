@@ -39,8 +39,9 @@ public class AimStageManager : MonoBehaviour {
     private void Awake() {
         lookAction = InputSystem.actions.FindAction("Look");
         m_Aim = InputSystem.actions.FindAction("Aim");
-        //SetCursorState(false);
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -84,6 +85,20 @@ public class AimStageManager : MonoBehaviour {
 
             currentState.UpdateState(this);
         }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
     }
 
     private void LateUpdate() {
@@ -97,5 +112,15 @@ public class AimStageManager : MonoBehaviour {
     public void SwitchState(AimBaseState state) {
         currentState = state;
         state.EnterState(this);
+    }
+
+    private void SetCursorState(bool lockCursor)
+    {
+        Cursor.visible = !lockCursor;
+
+        if (lockCursor)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;
     }
 }

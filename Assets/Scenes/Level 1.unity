@@ -936,6 +936,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 5.0000095}
   m_Center: {x: 2.5, y: -2.5, z: -2.5}
+--- !u!1 &949721878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
+  m_PrefabInstance: {fileID: 1449844487956481469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &949721887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949721878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0d426a0dba0bd429fc8c27ddb6fc1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoulDrop
+  soulPrefab: {fileID: 2765264681489508325, guid: 4e855f3e20640694f915c863aba836e1, type: 3}
+  soulAmount: 1
 --- !u!1 &1104672961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,7 +1887,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 949721887}
   m_SourcePrefab: {fileID: 100100000, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
 --- !u!4 &1622513381766498559
 Transform:
@@ -2441,7 +2463,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4675,6 +4697,7 @@ GameObject:
   - component: {fileID: 8292791927408360412}
   - component: {fileID: 2140181768361790642}
   - component: {fileID: 8795196030074171376}
+  - component: {fileID: 8795196030074171377}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -4752,6 +4775,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
+--- !u!114 &8795196030074171377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785149465699300834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb279fdba8c4c04b901e889d41f8d2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoul
+  currentSouls: 0
+  requiredSouls: 10
 --- !u!114 &8810123235233846666
 MonoBehaviour:
   m_ObjectHideFlags: 0
