@@ -35,6 +35,7 @@ Transform:
   - {fileID: 6521012011895371393}
   - {fileID: 1691245569324995907}
   - {fileID: 5866760333591217377}
+  - {fileID: 6128175282552405034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &5807492764404290120
@@ -93,13 +94,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8167b540a947664caa616aac5955659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SniperBehaviour
-  player: {fileID: 0}
+  player: {fileID: 8251785580558695441, guid: ea8f6f924b9abc74a9204bf1b52f0f86, type: 3}
   maxHealth: 2
   detectRange: 10
   attackRange: 20
   fleeDistance: 10
   fleeSpeed: 6
   attackCooldown: 3
+  bulletPrefab: {fileID: 2520950684779280858, guid: cb2a5213888b85a4296f3e6512c8667a, type: 3}
+  firePoint: {fileID: 6128175282552405034}
+  bulletSpeed: 15
+  formationPoint: {fileID: 0}
 --- !u!1 &880846042247435207
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +173,37 @@ Transform:
   m_Children:
   - {fileID: 4146445751241284200}
   m_Father: {fileID: 1644366392161433560}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1526348636653634051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6128175282552405034}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6128175282552405034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526348636653634051}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0502248, y: 0.00000011358384, z: 0.09300995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4515978729254702722}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1625030547400923595
 GameObject:
