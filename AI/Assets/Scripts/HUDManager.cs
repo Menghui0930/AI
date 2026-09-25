@@ -40,7 +40,7 @@ public class HUDManager : MonoBehaviour {
 
     void UpdateHealthUI(int current, int max) {
         if (hpText != null) {
-            hpText.text = current + " / " + max;
+            hpText.text = current + "/" + max;
         }
 
         if (hpBar != null) {

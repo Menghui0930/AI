@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
+    public Transform TargetPoint;
     public Transform player;
 
     [Header("Health")]
@@ -12,6 +13,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     [Header("Points")]
     public Transform[] climbPoints;
     public Transform[] topPoints;
+    public Transform ShootingPoints;
 
     [Header("Movement")]
     public float moveSpeed = 5f;
@@ -28,6 +30,8 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     public float hitCheckRadius = 1.5f;
     public LayerMask obstructionMask;
     public int damage = 1;
+    public Vector3 laserEndPoint;
+    public GameObject ExplodeVFX;
 
     [Header("Aiming / Lose Sight")]
     public float loseSightGraceTime = 1.5f; // 看不到玩家后，等这么久才放弃去下一个点
@@ -56,7 +60,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     }
 
     void Update() {
-        if (player == null || state == State.Dead) return;
+        if (TargetPoint == null || state == State.Dead) return;
         if (isBusy) return;
 
         switch (state) {
@@ -70,7 +74,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     }
 
     void HandleMovingToPoint() {
-        float playerDist = Vector3.Distance(transform.position, player.position);
+        float playerDist = Vector3.Distance(transform.position, TargetPoint.position);
 
         if (playerDist <= detectRange) {
             PickNewPoint();
@@ -106,7 +110,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
 
     bool HasLineOfSight() {
         Transform top = topPoints[currentPointIndex];
-        Vector3 toPlayer = player.position - top.position;
+        Vector3 toPlayer = TargetPoint.position - top.position;
         float distance = toPlayer.magnitude;
 
         if (distance > attackRange) return false;
@@ -119,7 +123,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     }
 
     void FacePlayerHorizontal() {
-        Vector3 direction = player.position - transform.position;
+        Vector3 direction = TargetPoint.position - transform.position;
         direction.y = 0;
         if (direction.sqrMagnitude > 0.01f) {
             transform.rotation = Quaternion.LookRotation(direction);
@@ -129,23 +133,39 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     IEnumerator AttackSequence() {
         isBusy = true;
 
-        lockedAimPoint = player.position;
+        lockedAimPoint = TargetPoint.position;
 
         if (laserLine != null) {
+            Vector3 fireOrigin = ShootingPoints.position;
+            Vector3 aimDirection = (lockedAimPoint - fireOrigin).normalized;
+            float maxLaserDistance = attackRange * 2f; // 保证够长，能穿过玩家继续打到后面的地面/墙
+
+            laserEndPoint = fireOrigin + aimDirection * maxLaserDistance;
+
+            // 沿着瞄准方向继续往前打，找真正会挡住去路的地面/墙壁
+            if (Physics.Raycast(fireOrigin, aimDirection, out RaycastHit hit, maxLaserDistance, obstructionMask)) {
+                laserEndPoint = hit.point;
+            }
+
             laserLine.enabled = true;
-            laserLine.SetPosition(0, topPoints[currentPointIndex].position);
-            laserLine.SetPosition(1, lockedAimPoint);
+            laserLine.SetPosition(0, fireOrigin);
+            laserLine.SetPosition(1, laserEndPoint);
         }
 
         yield return new WaitForSeconds(aimLockDuration);
 
-        float distToLockedPoint = Vector3.Distance(player.position, lockedAimPoint);
+        float distToLockedPoint = Vector3.Distance(TargetPoint.position, lockedAimPoint);
         if (distToLockedPoint <= hitCheckRadius) {
             PlayerHealth ph = player.GetComponent<PlayerHealth>();
             if (ph != null) {
+                Instantiate(ExplodeVFX, lockedAimPoint, Quaternion.identity);
                 ph.TakeDamage(damage);
             }
+        } else {
+            Instantiate(ExplodeVFX, laserEndPoint, Quaternion.identity);
         }
+        
+
 
         if (laserLine != null) laserLine.enabled = false;
 
@@ -251,7 +271,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         for (int i = 0; i < climbPoints.Length; i++) {
             if (i == currentPointIndex && climbPoints.Length > 1) continue;
 
-            float dist = Vector3.Distance(climbPoints[i].position, player.position);
+            float dist = Vector3.Distance(climbPoints[i].position, TargetPoint.position);
             if (dist > bestDistance) {
                 bestDistance = dist;
                 bestIndex = i;
@@ -286,6 +306,9 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, hitCheckRadius);
 
         if (climbPoints != null) {
             Gizmos.color = Color.cyan;
