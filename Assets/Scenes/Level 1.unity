@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: 780966609}
   - component: {fileID: 780966608}
   - component: {fileID: 780966612}
+  - component: {fileID: 780966613}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -565,6 +566,50 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &780966613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780966607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &800398234 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1555921008651716, guid: 1e4f0d9e7dbf221419b0bd0e1286aa16, type: 3}
@@ -669,10 +714,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Virus Injector
       objectReference: {fileID: 0}
-    - target: {fileID: 6557233443766166099, guid: 56f6c6fd8bd0b6c40b8d62a7c4e969e3, type: 3}
-      propertyPath: runnerPrefab
-      value: 
-      objectReference: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -936,25 +977,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5, y: 5, z: 5.0000095}
   m_Center: {x: 2.5, y: -2.5, z: -2.5}
---- !u!1 &949721878 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
-  m_PrefabInstance: {fileID: 1449844487956481469}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &949721887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949721878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d0d426a0dba0bd429fc8c27ddb6fc1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoulDrop
-  soulPrefab: {fileID: 2765264681489508325, guid: 4e855f3e20640694f915c863aba836e1, type: 3}
-  soulAmount: 1
 --- !u!1 &1104672961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,10 +1909,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 949721887}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
 --- !u!4 &1622513381766498559
 Transform:

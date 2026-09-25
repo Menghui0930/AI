@@ -93,6 +93,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f02491dd0e3fbab468f5075ada0869c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 937482087217816632}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f02491dd0e3fbab468f5075ada0869c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3860580709946387169}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f02491dd0e3fbab468f5075ada0869c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1535387002496277060}
   m_SourcePrefab: {fileID: 100100000, guid: f02491dd0e3fbab468f5075ada0869c1, type: 3}
 --- !u!4 &79263922091306791 stripped
 Transform:
@@ -120,3 +126,30 @@ MonoBehaviour:
   energyPulse: {fileID: 2520950684779280858, guid: c81f1e5763ff4bd4db5618ba0541d085, type: 3}
   firePoint: {fileID: 3338644036662396285}
   fireInterval: 2
+--- !u!114 &3860580709946387169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743739014241187229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7713af53c6eee7e47a84abb2afe62bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 10
+--- !u!114 &1535387002496277060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743739014241187229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0d426a0dba0bd429fc8c27ddb6fc1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoulDrop
+  soulPrefab: {fileID: 2765264681489508325, guid: 4e855f3e20640694f915c863aba836e1, type: 3}
+  soulAmount: 1

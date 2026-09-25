@@ -470,6 +470,8 @@ GameObject:
   m_Component:
   - component: {fileID: 397534240903627865}
   - component: {fileID: 6557233443766166099}
+  - component: {fileID: 6555323309364787735}
+  - component: {fileID: 5111223465381664894}
   m_Layer: 0
   m_Name: Virus Injector
   m_TagString: Enemy
@@ -509,9 +511,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VirusInjectorBehaviour
   maxHealth: 5
-  runnerPrefab: {fileID: 5529614238208835767, guid: b18caf113994ac44992a6c118177bea2, type: 3}
+  runnerPrefab: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
   spawnPoint: {fileID: 913632745558961690}
   spawnInterval: 5
+--- !u!114 &6555323309364787735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605317401933731592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7713af53c6eee7e47a84abb2afe62bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 5
+--- !u!114 &5111223465381664894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605317401933731592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0d426a0dba0bd429fc8c27ddb6fc1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoulDrop
+  soulPrefab: {fileID: 2765264681489508325, guid: 4e855f3e20640694f915c863aba836e1, type: 3}
+  soulAmount: 1
 --- !u!1 &4979771514989631303
 GameObject:
   m_ObjectHideFlags: 0

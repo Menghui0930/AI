@@ -50,9 +50,16 @@ public class AimStageManager : MonoBehaviour {
         vCam = GetComponentInChildren<CinemachineCamera>();
         if (vCam == null) {
             Debug.Log("noVcam");
+            return;
         }
         hipFov = vCam.Lens.FieldOfView;
         anim = GetComponent<Animator>();
+
+        if (anim == null)
+        {
+            Debug.LogError("AimStageManager: No Animator found!");
+            return;
+        }
 
         SwitchState(Hip);
     }
