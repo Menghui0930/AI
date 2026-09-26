@@ -470,6 +470,7 @@ GameObject:
   m_Component:
   - component: {fileID: 397534240903627865}
   - component: {fileID: 6557233443766166099}
+  - component: {fileID: 824725101403208616}
   m_Layer: 0
   m_Name: Virus Injector
   m_TagString: Enemy
@@ -509,9 +510,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VirusInjectorBehaviour
   maxHealth: 5
-  runnerPrefab: {fileID: 5529614238208835767, guid: b18caf113994ac44992a6c118177bea2, type: 3}
+  runnerPrefab: {fileID: 4940827203401183645, guid: 2df5da0659537c845903fe5202f6ad3c, type: 3}
   spawnPoint: {fileID: 913632745558961690}
   spawnInterval: 5
+--- !u!65 &824725101403208616
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4605317401933731592}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.598177, y: 2.4933252, z: 2.2937584}
+  m_Center: {x: 0.008978844, y: 1.1596746, z: -0.38612175}
 --- !u!1 &4979771514989631303
 GameObject:
   m_ObjectHideFlags: 0

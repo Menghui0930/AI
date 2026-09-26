@@ -17,7 +17,10 @@ public class RobotGroupController : MonoBehaviour {
 
         if (player == null) {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null) player = playerObj.transform;
+            if (playerObj != null) {
+                player = playerObj.transform;
+                player = player.transform.parent.GetChild(2);
+            }
         }
     }
 
@@ -39,6 +42,11 @@ public class RobotGroupController : MonoBehaviour {
         foreach (var m in members) {
             if (m != null) m.SetAlert(alert, player);
         }
+    }
+
+    public void RefreshMembers() {
+        members.Clear();
+        GetComponentsInChildren<MeleeEnemyBehaviour>(true, members);
     }
 
     void OnDrawGizmosSelected() {

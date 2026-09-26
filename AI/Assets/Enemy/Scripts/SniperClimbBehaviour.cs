@@ -54,6 +54,15 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
 
+        if (player == null) {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null) {
+                player = playerObj.transform;
+                TargetPoint = player.transform.parent.GetChild(2);
+            }
+        }
+
+
         if (laserLine != null) laserLine.enabled = false;
 
         PickNewPoint();
@@ -297,6 +306,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         state = State.Dead;
         StopAllCoroutines();
         if (laserLine != null) laserLine.enabled = false;
+        player.GetComponent<WeaponAmmo>().extraAmmo += 30;
         Destroy(gameObject);
     }
 

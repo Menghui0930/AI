@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class SniperBehaviour : MonoBehaviour
 {
     public Transform player;
+    public WeaponAmmo Weapon;
 
     // Health
     public int maxHealth = 2;
@@ -28,6 +29,14 @@ public class SniperBehaviour : MonoBehaviour
         currentHealth = maxHealth;
 
         agent = GetComponent<NavMeshAgent>();
+        if (player == null) {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null) {
+                player = playerObj.transform;
+                Weapon = player.GetComponent<WeaponAmmo>();
+                player = player.transform.parent.GetChild(2);
+            }
+        }
 
         agent.speed = fleeSpeed;
     }
@@ -146,6 +155,7 @@ public class SniperBehaviour : MonoBehaviour
 
     void Die()
     {
+        Weapon.extraAmmo += 10;
         Destroy(gameObject);
     }
 }

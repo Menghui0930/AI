@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class VirusInjectorBehaviour : MonoBehaviour
-{
+public class VirusInjectorBehaviour : MonoBehaviour ,IDamageable {
     // Health
     public int maxHealth = 5;
     private int currentHealth;
@@ -72,26 +71,14 @@ public class VirusInjectorBehaviour : MonoBehaviour
         Debug.Log("Virus Injector spawned a Runner.");
     }
 
-    // Injector takes damage
-    public void TakeDamage()
-    {
-        currentHealth--;
-
-        Debug.Log(
-            "Virus Injector Health: " +
-            currentHealth
-        );
-
-        if (currentHealth <= 0)
-        {
+    public void TakeDamage(int amount) {
+        currentHealth -= amount;
+        if (currentHealth <= 0) {
             Die();
         }
     }
 
-    void Die()
-    {
-        Debug.Log("Virus Injector destroyed.");
-
+    void Die() {
         Destroy(gameObject);
     }
 }

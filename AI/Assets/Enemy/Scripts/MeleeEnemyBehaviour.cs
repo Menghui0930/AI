@@ -24,6 +24,15 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
     private Vector3 homePosition;
     private Quaternion homeRotation;
 
+    [Header("Carryover VFX")]
+    public GameObject carryoverVfxPrefab;
+    private GameObject carryoverVfxInstance;
+
+    [Header("Loot Drop")]
+    public GameObject healthPickupPrefab;
+    [Range(0f, 1f)]
+    public float dropChance = 0.1f; // 10%
+
     enum State { Idle, Chasing, Attacking, Returning, Dead }
     State state = State.Idle;
 
@@ -115,8 +124,18 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
             transform.rotation = Quaternion.Slerp(transform.rotation, homeRotation, rotateSpeed * Time.deltaTime);
 
             if (Quaternion.Angle(transform.rotation, homeRotation) < 2f) {
+                anim.SetBool("Chase",false);
                 state = State.Idle; // 回到原位、转回原朝向后，正式变回发呆
             }
+        }
+    }
+
+    public void MarkAsCarriedOver() {
+        if (carryoverVfxInstance != null) return; // 已经挂过了，不重复加
+
+        if (carryoverVfxPrefab != null) {
+            carryoverVfxInstance = Instantiate(carryoverVfxPrefab, transform.position, Quaternion.identity, transform);
+            damage *= 2;    
         }
     }
 
@@ -155,7 +174,17 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
         state = State.Dead;
         agent.isStopped = true;
         anim.SetBool("Attack", false);
+        TryDropLoot();
+
         Destroy(gameObject);
+    }
+
+    void TryDropLoot() {
+        if (healthPickupPrefab == null) return;
+
+        if (Random.value <= dropChance) {
+            Instantiate(healthPickupPrefab, new Vector3(transform.position.x,transform.position.y + 0.8f,transform.position.z), Quaternion.identity);
+        }
     }
 
     void OnDrawGizmosSelected() {
