@@ -1099,7 +1099,7 @@ MonoBehaviour:
   meleeOrigin: {fileID: 8375980918285401325}
   carryoverVfxPrefab: {fileID: 3049428253405200621, guid: 047455fe4ad21ab4f9cd622a76067bb6, type: 3}
   healthPickupPrefab: {fileID: 3180190772059161819, guid: c791c74e28ee2de4e945c0379d539a30, type: 3}
-  dropChance: 1
+  dropChance: 0.2
 --- !u!136 &449801885988572222
 CapsuleCollider:
   m_ObjectHideFlags: 0

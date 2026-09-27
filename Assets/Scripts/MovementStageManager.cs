@@ -51,7 +51,8 @@ public class MovementStageManager : MonoBehaviour {
     [HideInInspector] public WalkState Walk = new WalkState();
     [HideInInspector] public CrouchState Crouch = new CrouchState();
     [HideInInspector] public RunState Run = new RunState();
-    
+
+    public bool Freeze = true;
 
     private void Awake() {
         m_MoveAction = InputSystem.actions.FindAction("Move");
@@ -66,7 +67,9 @@ public class MovementStageManager : MonoBehaviour {
     }
 
     private void Update() {
-        GetDirAndMove();
+        if (!Freeze) {
+            GetDirAndMove();
+        }
         Gravity();
 
         hzBlend = Mathf.Lerp(hzBlend, hzInput, Time.deltaTime * speedChangeRate);
