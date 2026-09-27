@@ -12,9 +12,4 @@ public class ResultSceneUI : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
 }
