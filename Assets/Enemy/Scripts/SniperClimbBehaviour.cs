@@ -34,7 +34,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
     public GameObject ExplodeVFX;
 
     [Header("Aiming / Lose Sight")]
-    public float loseSightGraceTime = 1.5f; 
+    public float loseSightGraceTime = 1.5f; // 看不到玩家后，等这么久才放弃去下一个点
     private float loseSightTimer = 0f;
 
     [Header("Laser Visual")]
@@ -105,9 +105,9 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
                 loseSightTimer = 0f;
                 StartCoroutine(ClimbDownRoutine(currentPointIndex));
             }
-            return; 
+            return; // 缓冲期内什么都不做，继续留在原地观察
         } else {
-            loseSightTimer = 0f; 
+            loseSightTimer = 0f; // 重新看到玩家了，清空计时
         }
 
         FacePlayerHorizontal();
@@ -147,10 +147,11 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         if (laserLine != null) {
             Vector3 fireOrigin = ShootingPoints.position;
             Vector3 aimDirection = (lockedAimPoint - fireOrigin).normalized;
-            float maxLaserDistance = attackRange * 2f; 
+            float maxLaserDistance = attackRange * 2f; // 保证够长，能穿过玩家继续打到后面的地面/墙
 
             laserEndPoint = fireOrigin + aimDirection * maxLaserDistance;
 
+            // 沿着瞄准方向继续往前打，找真正会挡住去路的地面/墙壁
             if (Physics.Raycast(fireOrigin, aimDirection, out RaycastHit hit, maxLaserDistance, obstructionMask)) {
                 laserEndPoint = hit.point;
             }
@@ -181,6 +182,7 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         isBusy = false;
     }
 
+    // ---------------- 爬柱子（上） ----------------
     IEnumerator ClimbUpRoutine(int index) {
         isBusy = true;
         agent.enabled = false;
@@ -189,16 +191,21 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         Transform topPoint = topPoints[index];
         float wallYaw = climbPoint.eulerAngles.y;
 
+        // 1. 先对齐 climb point 的 Y 轴朝向（面向柱子）
         yield return RotateOverTime(Quaternion.Euler(0f, wallYaw, 0f), turnDuration);
 
+        // 2. 转成攀爬姿势（绕 X 轴），Y 朝向保持不变
         yield return RotateOverTime(Quaternion.Euler(-90f, wallYaw, 0f), turnDuration);
 
+        // 3. 只沿 Y 轴直线上升，X/Z 不变（贴着柱子往上爬），直到跟 topPoint 一样高
         Vector3 climbStart = transform.position;
         Vector3 climbEnd = new Vector3(climbStart.x, topPoint.position.y, climbStart.z);
         yield return MoveOverSpeed(climbStart, climbEnd, climbSpeed);
 
+        // 4. 转回正常站姿
         yield return RotateOverTime(Quaternion.Euler(0f, wallYaw, 0f), turnDuration);
 
+        // 5. 水平移动到 topPoint 的实际位置（走上平台）
         Vector3 stepStart = transform.position;
         yield return MoveOverSpeed(stepStart, topPoint.position, climbSpeed);
 
@@ -208,23 +215,29 @@ public class SniperClimbBehaviour : MonoBehaviour, IDamageable {
         isBusy = false;
     }
 
+    // ---------------- 爬柱子（下） ----------------
     IEnumerator ClimbDownRoutine(int index) {
         isBusy = true;
 
         Transform climbPoint = climbPoints[index];
         float wallYaw = climbPoint.eulerAngles.y;
 
+        // 1. 先对齐 climb point 的 Y 轴朝向
         yield return RotateOverTime(Quaternion.Euler(0f, wallYaw+180f, 0f), turnDuration);
 
+        // 2. 水平移动，回到柱子正上方（X/Z 对齐 climbPoint，高度先保持不变）
         Vector3 backStart = transform.position;
         Vector3 backEnd = new Vector3(climbPoint.position.x, backStart.y, climbPoint.position.z);
         yield return MoveOverSpeed(backStart, backEnd, climbSpeed);
 
+        // 3. 转成攀爬姿势
         yield return RotateOverTime(Quaternion.Euler(90f, wallYaw+180, 0f), turnDuration);
 
+        // 4. 只沿 Y 轴直线下降到 climbPoint 的高度
         Vector3 downStart = transform.position;
         yield return MoveOverSpeed(downStart, climbPoint.position, climbSpeed);
 
+        // 5. 转回正常站姿
         yield return RotateOverTime(Quaternion.Euler(0f, wallYaw, 0f), turnDuration);
 
         agent.enabled = true;

@@ -56,8 +56,11 @@ public class RunnerBehaviour : MonoBehaviour
 
             if (playerController != null)
             {
+                // Player loses 1 health
                 playerController.TakeDamage();
             }
+
+            // Runner explodes
             Explode();
         }
     }

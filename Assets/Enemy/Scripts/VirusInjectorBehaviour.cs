@@ -67,6 +67,8 @@ public class VirusInjectorBehaviour : MonoBehaviour ,IDamageable {
                 runner.player = playerObject.transform;
             }
         }
+
+        Debug.Log("Virus Injector spawned a Runner.");
     }
 
     public void TakeDamage(int amount) {
