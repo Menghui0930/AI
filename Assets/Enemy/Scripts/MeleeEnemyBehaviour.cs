@@ -12,11 +12,11 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
     public float rotateSpeed = 8f;
 
     [Header("Attack")]
-    public float attackRange = 1.5f;     // 进入这个距离才开始近战
-    public float giveUpAttackRange = 2f; // 玩家跑出这个距离，停止攻击重新追（要比 attackRange 大一点，避免抖动）
+    public float attackRange = 1.5f;     
+    public float giveUpAttackRange = 2f; 
     public int damage = 1;
     public float meleeHitRadius = 1f;
-    public Transform meleeOrigin; // 打击判定的中心点，通常放在 enemy 前方
+    public Transform meleeOrigin; 
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -42,12 +42,10 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
         agent.speed = moveSpeed;
         currentHealth = maxHealth;
 
-        // 记住自己一开始站的位置和朝向，之后"回家"用
         homePosition = transform.position;
         homeRotation = transform.rotation;
     }
 
-    // 由 GroupController 呼叫，通知这只 enemy 要不要进入警戒状态
     public void SetAlert(bool alert, Transform playerTransform) {
         if (state == State.Dead) return;
 
@@ -75,7 +73,6 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
             case State.Returning:
                 HandleReturning();
                 break;
-                // Idle 什么都不用做，站着发呆
         }
     }
 
@@ -107,14 +104,10 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
 
         float dist = Vector3.Distance(transform.position, player.position);
         if (dist > giveUpAttackRange) {
-            // 玩家跑开了，重新追上去
             anim.SetBool("Attack", false);
             agent.isStopped = false;
             state = State.Chasing;
         }
-
-        // 实际伤害判定不在这里手动倒数计时，
-        // 而是靠攻击动画的 Animation Event 呼叫 DealDamage()（见下方说明）
     }
 
     void HandleReturning() {
@@ -125,13 +118,13 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
 
             if (Quaternion.Angle(transform.rotation, homeRotation) < 2f) {
                 anim.SetBool("Chase",false);
-                state = State.Idle; // 回到原位、转回原朝向后，正式变回发呆
+                state = State.Idle; 
             }
         }
     }
 
     public void MarkAsCarriedOver() {
-        if (carryoverVfxInstance != null) return; // 已经挂过了，不重复加
+        if (carryoverVfxInstance != null) return; 
 
         if (carryoverVfxPrefab != null) {
             carryoverVfxInstance = Instantiate(carryoverVfxPrefab, transform.position, Quaternion.identity, transform);
@@ -148,7 +141,6 @@ public class MeleeEnemyBehaviour : MonoBehaviour, IDamageable {
         }
     }
 
-    // 这个方法由攻击动画里的 Animation Event 呼叫，不是由代码倒数计时呼叫
     public void DealDamage() {
         if (player == null) return;
 

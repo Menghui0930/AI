@@ -26,7 +26,7 @@ public class EnemyChaser : MonoBehaviour {
     NavMeshAgent agent;
     float timer;
 
-    GameObject windupVfxInstance; // 记录目前正在播放的前摇特效
+    GameObject windupVfxInstance; 
     Coroutine attackCoroutine;
 
     enum State { Chasing, Attacking, Dead }
@@ -38,7 +38,7 @@ public class EnemyChaser : MonoBehaviour {
         agent.stoppingDistance = attackRange;
 
         health = GetComponent<EnemyHealth>();
-        health.OnDeath += InterruptAndDie; // 血量归零时自动中断攻击并死亡
+        health.OnDeath += InterruptAndDie; 
 
         if (player == null) {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -75,14 +75,13 @@ public class EnemyChaser : MonoBehaviour {
 
     void EnterAttackState() {
         state = State.Attacking;
-        agent.isStopped = true; // 攻击(引爆)期间不移动
+        agent.isStopped = true; 
 
         attackCoroutine = StartCoroutine(AttackSequence());
     }
 
     IEnumerator AttackSequence() {
         if (windupVfxPrefab != null) {
-            // 建议直接挂在 Enemy 底下当子物体，这样Enemy被销毁时会自动跟着消失
             windupVfxInstance = Instantiate(windupVfxPrefab, transform.position, Quaternion.identity, transform);
         }
 

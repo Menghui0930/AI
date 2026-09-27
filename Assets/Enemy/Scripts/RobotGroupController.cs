@@ -6,13 +6,12 @@ public class RobotGroupController : MonoBehaviour {
 
     [Header("Detect / Lose Range")]
     public float detectRange = 8f;
-    public float loseRange = 12f; // 一定要比 detectRange 大，避免玩家刚好站在边界反复触发
+    public float loseRange = 12f; 
 
     private List<MeleeEnemyBehaviour> members = new List<MeleeEnemyBehaviour>();
     private bool isAlert = false;
 
     void Awake() {
-        // 自动收集底下所有子物体的 MeleeEnemyBehaviour
         GetComponentsInChildren<MeleeEnemyBehaviour>(true, members);
 
         if (player == null) {

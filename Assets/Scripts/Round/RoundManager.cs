@@ -4,10 +4,10 @@ using UnityEngine;
 using TMPro;
 
 public class RoundManager : MonoBehaviour {
-    [Header("Spawn Points（把 Melee / VirusInjector / Sniper 生成点都拖进来）")]
+    [Header("Spawn Points")]
     public List<MonoBehaviour> spawnPoints;
 
-    [Header("Round Durations（依序对应 Round 1, 2, 3）")]
+    [Header("Round Durations")]
     public float[] roundDurations = { 90f, 105f, 120f };
     public float restDuration = 15f;
 
@@ -39,7 +39,6 @@ public class RoundManager : MonoBehaviour {
             if (!isLastRound) {
                 if (roundText != null) roundText.text = "Next Round";
 
-                // Round 1、2 结束进入休息时生成宝箱；Round 3 是最后一轮，不会走到这里
                 if (chestSpawnPoint != null) {
                     chestSpawnPoint.SpawnChest();
                 }
@@ -56,7 +55,6 @@ public class RoundManager : MonoBehaviour {
         float timer = duration;
 
         while (timer > 0f) {
-            // 每帧检查：如果敌人已经全部清空，提前结束这个 round
             if (AreAllPointsCleared()) {
                 break;
             }
@@ -66,8 +64,6 @@ public class RoundManager : MonoBehaviour {
 
             yield return null;
         }
-
-        // 时间到了但还有敌人没打完，UI 显示 0，但敌人不会被清掉，保留到下一round
         UpdateCountdownUI(0f);
     }
 
