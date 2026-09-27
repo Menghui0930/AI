@@ -4,7 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
+    guid: 829c9778aa819f8419e8b7b9969ab86c
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: 340d835aa793e55469f5ca112baccd22
+  - enabled: 1
+    path: Assets/Scenes/LoseScene.unity
+    guid: a42b4594ff8c8f74cad8a9758449a299
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ba27ffa6597b42346b93e2e04661fe27, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

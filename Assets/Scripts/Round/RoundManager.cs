@@ -20,6 +20,8 @@ public class RoundManager : MonoBehaviour {
     [Header("Chest")]
     public ChestSpawnPoint chestSpawnPoint;
 
+    public GameFlowManager gameFlowManager;
+
     void Start() {
         StartCoroutine(RunGame());
     }
@@ -48,6 +50,7 @@ public class RoundManager : MonoBehaviour {
             } else {
                 if (roundText != null) roundText.text = "All Rounds Cleared";
                 if (countdownText != null) countdownText.text = "";
+                if (gameFlowManager != null) gameFlowManager.WinGame();
             }
         }
     }
@@ -96,6 +99,7 @@ public class RoundManager : MonoBehaviour {
             IRoundSpawnPoint point = sp as IRoundSpawnPoint;
             if (point != null) {
                 point.SpawnForRound(roundNumber);
+                Debug.Log("Round " + roundNumber);
             }
         }
     }
